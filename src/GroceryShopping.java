@@ -19,10 +19,11 @@ public class GroceryShopping {
     }
 
     private static void startConsole(Scanner scanner) {
-        String COMMAND_OPTIONS = "Enter 1 to add items\nEnter 2 to checkout\nEnter 'Exit' to end application";
+        String COMMAND_OPTIONS = "Enter 1 to add items\nEnter 2 to checkout\nEnter 3 to search for item\nEnter 'Exit' to end application";
         String EXIT_COMMAND = "Exit";
         String ADD_ITEM_COMMAND = "1";
         String CHECKOUT_COMMAND = "2";
+        String SEARCH_COMMAND = "3";
         String EMPTY_CART_WARNING = "\nINFO: Please add items to cart\n";
 
         while (inInfiniteLoop) {
@@ -38,6 +39,8 @@ public class GroceryShopping {
             }
             if (commandChoice.equals(CHECKOUT_COMMAND) && selectIndex == startIndex)
                 System.out.println(EMPTY_CART_WARNING);
+            if (commandChoice.equals(SEARCH_COMMAND))
+                searchForItemByName(items, scanner);
         }
     }
 
@@ -126,5 +129,20 @@ public class GroceryShopping {
         }
         String totalItemCostMessage = "Total Bill: " + currencySign + String.format(moneyDecimalFormat, totalCost) + "\n";
         System.out.println(totalItemCostMessage);
+    }
+
+    private static void searchForItemByName(String[] items, Scanner scanner) {
+        String searchResponse = "Item not found\n";
+        String inputSearchMessage = "Enter item name";
+        System.out.println(inputSearchMessage);
+        String searchTerm = scanner.nextLine();
+        for(int i = startIndex; i < items.length; i++) {
+            boolean isSearchMatching = items[i].toLowerCase().matches(searchTerm.toLowerCase());
+            if (isSearchMatching){
+                searchResponse = "\nITEM FOUND: " + items[i] + " " + currencySign + String.format(moneyDecimalFormat, prices[i]) + "\n";
+                break;
+            }
+        }
+        System.out.println(searchResponse);
     }
 }
